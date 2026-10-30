@@ -7,21 +7,21 @@ class PaymentResult {
   final String? errorMessage;
   final DateTime timestamp;
 
-  const PaymentResult.success({
+  PaymentResult.success({
     required this.orderId,
     required this.gatewayProvider,
     required this.transactionReference,
   })  : isSuccess = true,
         errorMessage = null,
-        timestamp = const _StaticDateTimeHolder().now;
+        timestamp = DateTime.now();
 
-  const PaymentResult.failure({
+  PaymentResult.failure({
     required this.orderId,
     required this.gatewayProvider,
     required this.errorMessage,
   })  : isSuccess = false,
         transactionReference = null,
-        timestamp = const _StaticDateTimeHolder().now;
+        timestamp = DateTime.now();
 
   @override
   String toString() {
@@ -29,9 +29,4 @@ class PaymentResult {
         ? 'PaymentResult.SUCCESS(order: $orderId, provider: $gatewayProvider, ref: $transactionReference)'
         : 'PaymentResult.FAILURE(order: $orderId, provider: $gatewayProvider, error: $errorMessage)';
   }
-}
-
-class _StaticDateTimeHolder {
-  const _StaticDateTimeHolder();
-  DateTime get now => DateTime.now();
 }

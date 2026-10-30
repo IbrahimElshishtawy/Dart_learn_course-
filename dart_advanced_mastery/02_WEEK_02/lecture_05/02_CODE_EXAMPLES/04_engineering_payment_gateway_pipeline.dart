@@ -29,14 +29,14 @@ class PaymentResult {
   final String? errorMessage;
   final DateTime processedAt;
 
-  const PaymentResult.success({
+  PaymentResult.success({
     required this.transactionId,
     required this.authorizationCode,
   })  : isSuccess = true,
         errorMessage = null,
         processedAt = DateTime.now();
 
-  const PaymentResult.failure({
+  PaymentResult.failure({
     required this.transactionId,
     required this.errorMessage,
   })  : isSuccess = false,

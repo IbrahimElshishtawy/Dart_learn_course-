@@ -45,6 +45,7 @@ class SmsNotifier implements Notifier {
 }
 
 class NullNotifier implements Notifier {
+  const NullNotifier();
   @override
   void notify(String recipient, String message) {} // نمط الكائن الفارغ (Null Object Pattern)
 }

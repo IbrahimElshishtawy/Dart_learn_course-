@@ -83,7 +83,8 @@ void executeBatchPayments(List<Payable> paymentQueue) {
 
       // فحص نوع اختياري ذكي (Smart Type Promotion)
       if (payment is ReceiptGeneratable) {
-        print('   ${payment.generateReceipt()}');
+        final withReceipt = payment as ReceiptGeneratable;
+        print('   ${withReceipt.generateReceipt()}');
       }
     }
   }
