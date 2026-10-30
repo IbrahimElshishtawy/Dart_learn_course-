@@ -44,135 +44,220 @@
 
 ---
 
-## 4. المنهج التفصيلي للأربعة أسابيع (Detailed Syllabus)
+---
 
-### الأسبوع الأول: Foundations, Type System & Modern Syntax
-*الهدف:* إرساء الأساس الصلب لفهم معمارية اللغة، ونظام الأنواع الصارم، والميزات الحديثة في Dart 3.x.
+## 4. المنهج التفصيلي للأربعة أسابيع والتكييف البيداغوجي (Beginner-to-Engineer Syllabus)
 
-- **Lecture 01: Language Architecture & Type System**
-  - كيف تعمل Dart تحت الغطاء؟ (VM, Runtime, JIT vs AOT).
-  - الـ Type System الصارم: Static Types vs Dynamic vs Object vs Never vs void.
-  - Sound Null Safety: مبدأ الإثبات الرياضي لعدم وجود `NullPointerExceptions` في وقت التشغيل.
-  - المتغيرات والذاكرة: `final` vs `const`، الـ Canonicalization، واستخدام `late` ومخاطرها.
+> **إطار التكييف من الصفر:**  
+> كل مفهوم يُدرس وفق **سلم المراحل التسع** (تشبيه حياتي $\rightarrow$ شرح بسيط $\rightarrow$ تمثيل بصري $\rightarrow$ كود بسيط $\rightarrow$ تتبع باليد $\rightarrow$ مثال متوسط $\rightarrow$ مثال متقدم $\rightarrow$ تطبيق هندسي $\rightarrow$ حل مشكلات مستقل).  
+> وتُصنف موضوعات كل محاضرة إلى 4 مستويات استيعابية:
+> - 🟢 **Core Learning:** إتقان إلزامي وتطبيق مستقل 100% خلال الشهر.
+> - 🟡 **Introduction:** مقدمة عملية وفهم سياقي واضح.
+> - 🔵 **Advanced Exposure:** اطلاع وفهم معماري عام دون إلزام تعجيزي.
+> - 🟣 **Future Learning:** تمهيد للمستقبل والتوسع الذاتي أثناء Flutter وما بعدها.
+
+---
+
+### الأسبوع الأول: التأسيس الحاسوبي، المتغيرات، الدوال، والمجموعات
+*الهدف:* بناء التفكير الحاسوبي من الصفر المطلق، وفهم كيف يخزن الكمبيوتر البيانات ويتخذ القرارات ويكرر المهام.
+
+- **Lecture 01: Computational Thinking, Variables, Data Types & Decisions**
+  - **المتطلبات السابقة:** لا شيء إطلاقاً (Zero Prior Knowledge).
+  - 🟢 **Core Learning:**
+    - ما هو البرنامج والكمبيوتر؟ دالة البداية `void main()` والطباعة `print()`.
+    - الصناديق والذاكرة: المتغيرات والأنواع الأساسية (`int`, `double`, `String`, `bool`).
+    - العمليات الحسابية والدمج النصي (`$variable`).
+    - اتخاذ القرار والمنطق: الشروط وجمل `if`, `else if`, `else`، وعمليات المقارنة (`==`, `!=`, `<`, `>`).
+  - 🟡 **Introduction:**
+    - استنتاج الأنواع التلقائي عبر `var` وتثبيته.
+    - مفهوم الـ Null والـ Sound Null Safety البسيط كـ "صندوق آمن يمنع الفراغ المفاجئ" (`?`, `??`).
+    - الثوابت الأساسية: الفرق البسيط بين `final` (تثبيت وقت التشغيل) و `const` (تثبيت وقت التجميع).
+  - 🔵 **Advanced Exposure:** نظرة سريعة على بنية الـ Dart VM (كيف يتحول الكود لبرنامج يعمل).
+  - 🟣 **Future Learning:** التعمق في `Never` type و Canonicalization الذاكري المتقدم.
   - *المشروع العملي:* Financial Transaction Validator Core.
 
-- **Lecture 02: Functions, Scope & Execution Model**
-  - دوال كـ First-Class Citizens: Higher-Order Functions, Closures, Tear-offs.
-  - النطاق المعجمي (Lexical Scope) والـ Call Stack وعمر المتغيرات في الذاكرة.
-  - Parameters المعمارية: Positional, Named, Optional, Required, Default values.
-  - أسلوب Functional Programming في Dart وتجنب الـ Side Effects.
+- **Lecture 02: Repetition, Loops, Scope & Functions**
+  - **المتطلبات السابقة:** إتقان المتغيرات والأنواع وجمل `if/else` من المحاضرة الأولى.
+  - 🟢 **Core Learning:**
+    - لماذا نكرر؟ حلقات التكرار البسيطة: `for` و `while`.
+    - الدوال كوصفات طهي: المدخلات (Parameters) والمخرجات (Return Types).
+    - تفكيك المشكلة الكبيرة إلى 3 أو 4 دوال صغيرة ومستقلة (Problem Decomposition).
+    - نطاق رؤية المتغيرات (Scope) وعمر المتغير داخل القوسين `{ }`.
+  - 🟡 **Introduction:**
+    - الباراميترات المسماة والاختيارية (Named & Optional Parameters `{}` `[]`).
+    - الدوال كقيم قابلة للتمرير والتخزين (First-Class Functions).
+    - قراءة رسائل الخطأ من الـ Compiler وإصلاح الـ Syntax بهدوء.
+  - 🔵 **Advanced Exposure:** مفهوم الـ Closures وتخزين الذاكرة في الـ Heap، ومزايا الـ Tear-offs.
+  - 🟣 **Future Learning:** البرمجة الوظيفية المتقدمة وتطوير الـ Higher-Order Pipelines المعقدة.
   - *المشروع العملي:* Flexible Data Transformation Pipeline.
 
-- **Lecture 03: Collections, Records & Patterns**
-  - تشريح بنى المجموعات: `List`, `Set`, `Map`، وكفاءة العمليات (Big-O Complexity).
-  - Modern Features: Spread Operator (`...`), Collection if/for.
-  - Records: التجميع النوعي للقيم غير المتجانسة بدون إنشاء فئات ثقيلة.
-  - Patterns & Pattern Matching: Destructuring, Switch Expressions, Guard Clauses, Exhaustiveness Checking.
+- **Lecture 03: Data Organization: Collections, Records & Basic Patterns**
+  - **المتطلبات السابقة:** إتقان المتغيرات، الشروط، الحلقات، والدوال.
+  - 🟢 **Core Learning:**
+    - كيف ننظم بيانات متعددة معاً؟
+    - القائمة (`List`): ترتيب العناصر، الإضافة، الحذف، والوصول عبر الـ Index.
+    - المجموعة الفريدة (`Set`): منع التكرار وفحص الوجود السريع.
+    - القاموس (`Map`): ربط المفتاح بالقيمة (Key-Value) كدليل هاتف.
+    - المرور على المجموعات باستخدام `for-in`.
+  - 🟡 **Introduction:**
+    - تجميع قيمتين معاً ببساطة باستخدام Dart 3 Records: `(int, String)`.
+    - تفكيك البيانات البسيط (Destructuring) دون كلاسات وسيطة.
+    - استبدال الـ `if` المتكررة بـ `switch expression`.
+  - 🔵 **Advanced Exposure:** مطابقة الأنماط المعقدة (Object Pattern Matching)، والـ Spread Operator `...`.
+  - 🟣 **Future Learning:** بنى البيانات المتقدمة وإثبات الـ Big O Complexity الرياضي للهاش كود.
   - *المشروع العملي:* E-Commerce Pattern-Based Order Engine.
 
 - **Weekly Assessment 1:**
-  - مراجعة شاملة لمفاهيم الأسبوع الأول.
-  - امتحان نظري وعملي على الـ Type System وPatterns.
-  - تحدي خوارزمي (Problem Solving Challenge 1).
+  - اختبار قياس الفهم التأسيسي، كتابة دوال وشروط بمفرده، وقراءة كود بسيط وتوقع مخرجاته.
+  - تحدي تطبيقي متدرج يدمج الحلقات والمجموعات.
 
 ---
 
-### الأسبوع الثاني: OOP, Class Hierarchy & Advanced Generics
-*الهدف:* بناء نماذج برمجية قوية، قابلة لإعادة الاستخدام والصيانة وفق مبادئ هندسة البرمجيات النظيفة.
+### الأسبوع الثاني: التفكير الكائني، النمذجة، والواجهات
+*الهدف:* الانتقال من البرمجة الإجرائية إلى التفكير كائني التوجه (OOP) وتصميم الكيانات.
 
-- **Lecture 04: Classes & Object Model**
-  - الفئات كـ Blueprints، الـ Memory Allocation للـ Objects على الـ Heap.
-  - Constructors وأنواعها: Generative, Named, Factory, Redirecting, Constant.
-  - Initializer Lists وأسبقيتها، `this`، والـ Field Initialization.
-  - مساواة الكائنات: `==` و`hashCode` و`identical`، والـ Immutability.
+- **Lecture 04: Classes, Objects & The State Blueprint**
+  - **المتطلبات السابقة:** إتقان المجموعات والدوال والتفكير الحسابي من الأسبوع الأول.
+  - 🟢 **Core Learning:**
+    - ما هو الكائن (Object)؟ تمثيل أشياء الواقع (السيارة، المستخدم، الحساب البنكي).
+    - الكلاس كـ "قالب صب أو مخطط معماري" (Blueprint).
+    - الخصائص (Properties/Fields) والوظائف (Methods).
+    - دالة البناء (Generative Constructor) والكلمة المفتاحية `this`.
+    - إنشاء كائنات متعددة وتعديل وقراءة خصائصها.
+  - 🟡 **Introduction:**
+    - حماية البيانات وتغليفها (Encapsulation) عبر الـ Private Fields `_`.
+    - الـ Named Constructors لإنشاء كائنات بطرق متعددة.
+    - مفهوم الكائنات غير القابلة للتعديل (`const` constructors).
+  - 🔵 **Advanced Exposure:** الـ Initializer Lists ومساواة الكائنات (`==` و `hashCode`).
+  - 🟣 **Future Learning:** الـ Factory Pattern المتقدم والـ Identity Caching على مستوى الـ VM.
   - *المشروع العملي:* Robust Configuration Management System.
 
-- **Lecture 05: OOP, Inheritance & Composition**
-  - الوراثة (Inheritance) و`extends` والـ Super Call.
-  - التجريد (Abstraction) والفئات المجردة والـ Implicit Interfaces.
-  - Mixins والـ Multiple Inheritance الآمن وقيد `on`.
-  - Extension Methods وExtension Types (Dart 3 Zero-cost Abstractions).
-  - مبدأ Composition over Inheritance وكيف نصمم معماريات مرنة.
+- **Lecture 05: OOP Principles: Inheritance, Abstraction & Composition**
+  - **المتطلبات السابقة:** إتقان الكلاسات والكونستركتورز من المحاضرة الرابعة.
+  - 🟢 **Core Learning:**
+    - مبدأ الوراثة وإعادة الاستخدام: `extends` و استدعاء الـ `super`.
+    - إعادة كتابة الدوال (Method Overriding) واستخدام `@override`.
+    - التجريد البسيط: الفئات المجردة `abstract class` لتحديد عقود العمل.
+  - 🟡 **Introduction:**
+    - مبدأ الواجهات: `implements` وكيف نفرض عقداً صارماً على الكلاسات.
+    - مشاركة الوظائف أفقياً عبر الـ Mixins (`with`).
+    - مبدأ "التركيب أولى من الوراثة" (Composition over Inheritance) بمثال بسيط.
+  - 🔵 **Advanced Exposure:** ميزات Dart 3: الـ Class Modifiers (`sealed`, `base`, `interface`) والـ Extension Methods.
+  - 🟣 **Future Learning:** الـ Extension Types (Zero-Cost Abstractions) والـ Mixin Linearization العميقة.
   - *المشروع العملي:* Modular Payment Processing Gateway.
 
-- **Lecture 06: Generics & Advanced Type Modeling**
-  - لماذا الـ Generics؟ الأمان النوعي ومنع أخطاء الـ Casting في وقت التشغيل.
-  - Type Bounds (`<T extends Comparable<T>>`) والـ Constraints.
-  - التغاير النوعي (Covariance in Dart Collections) وكيف تتعامل الـ VM معه.
-  - بناء فئات ومستودعات عامة (Generic Repositories) ونمط Result/Either Type.
+- **Lecture 06: Flexible Types: Introduction to Generics**
+  - **المتطلبات السابقة:** إتقان الـ OOP والواجهات والمجموعات.
+  - 🟢 **Core Learning:**
+    - لماذا نحتاج الأنواع العامة؟ كتابة كود مرن يتعامل مع أي نوع بأمان.
+    - الـ Generic Collections: لماذا نكتب `List<String>` بدلاً من قائمة عامة؟
+    - إنشاء دالة عامة بسيطة: `T getFirstElement<T>(List<T> items)`.
+  - 🟡 **Introduction:**
+    - إنشاء كلاس عام بسيط مثل صندوق تخزين: `Box<T>`.
+    - نمط الـ Result البسيط لحمل النتيجة أو الخطأ: `Result<T>`.
+  - 🔵 **Advanced Exposure:** قيود الأنواع (Type Bounds: `<T extends Comparable<T>>`).
+  - 🟣 **Future Learning:** التغاير النوعي (Covariance / Contravariance) في محركات اللغات والـ Reified Generics في C++.
   - *المشروع العملي:* Type-Safe Generic Entity Cache Engine.
 
 - **Weekly Assessment 2:**
-  - مراجعة شاملة للأسبوع الثاني.
-  - اختبار معماري على تصميم الكائنات والـ Mixins والـ Generics.
-  - تحدي هندسة البرمجيات (Software Architecture Challenge 2).
+  - مراجعة وبناء نظام كائنات متكامل، واختبار قراءة وتعديل الكلاسات وتصميم الواجهات.
 
 ---
 
-### الأسبوع الثالث: Concurrency, Event Loop & Dart VM Runtime
-*الهدف:* كشف أسرار المعالجة غير المتزامنة وتوزيع المهام الثقيلة وإدارة الذاكرة.
+### الأسبوع الثالث: الزمن والبرمجة غير المتزامنة والتوازي
+*الهدف:* استيعاب مفهوم الوقت، والانتظار دون تجميد البرنامج، والتعامل مع تدفقات البيانات.
 
-- **Lecture 07: Asynchronous Programming & Event Loop**
-  - حقيقة الـ Single-Threaded Execution في Dart.
-  - تشريح حلقة الأحداث: Microtask Queue vs Event Queue وترتيب الأسبقية.
-  - كائنات `Future` ودورات حياتها، `async` و`await` وما يفعله المترجم خلف الكواليس.
-  - معالجة الأخطاء غير المتزامنة: `try-catch`، `onError`، وتجنب الـ Unhandled Exceptions.
+- **Lecture 07: Time, Futures & The Asynchronous Model**
+  - **المتطلبات السابقة:** إتقان الـ OOP والدوال ونظام الأنواع.
+  - 🟢 **Core Learning:**
+    - ما معنى المتزامن (Sync) وغير المتزامن (Async) في الحياة اليومية؟
+    - مفهوم الـ `Future`: وعد بوصول قيمة في المستقبل (مثل طلب وجبة دليفري).
+    - الكلمات المفتاحية `async` و `await`: الانتظار المنظم للبيانات دون تعليق باقي الكود.
+    - معالجة الأخطاء غير المتزامنة ببساطة عبر `try / catch`.
+  - 🟡 **Introduction:**
+    - دوال الـ Future الشائعة: `Future.delayed()`.
+    - نموذج الـ Single-Thread في لغة Dart: لماذا لا تتجمد واجهة المستخدم؟
+  - 🔵 **Advanced Exposure:** حلقة الأحداث (The Event Loop) وطابور الـ Microtasks مقابل طابور الـ Events.
+  - 🟣 **Future Learning:** جدولة المهام الدقيقة، وإدارة الـ Execution Slices في الـ Dart VM.
   - *المشروع العملي:* Async Job Scheduler & Resilient Worker.
 
-- **Lecture 08: Streams & Reactive Programming**
-  - ماهية الـ Streams كأنابيب للبيانات غير المتزامنة عبر الزمن.
-  - Single-subscription Streams مقابل Broadcast Streams.
-  - StreamControllers وSink وStreamSubscription.
-  - تحويل البيانات: `StreamTransformer`، وعمليات `map`، `where`، `debounce`، `throttle`.
-  - إدارة الموارد وتفادي الـ Memory Leaks وإلغاء الاشتراكات بدقة.
+- **Lecture 08: Continuous Data: Introduction to Streams**
+  - **المتطلبات السابقة:** إتقان الـ Futures و async/await من المحاضرة السابعة.
+  - 🟢 **Core Learning:**
+    - الفرق بين القيمة الواحدة (`Future`) وتدفق القيم المستمر (`Stream`) كماسورة مياه تضخ بيانات.
+    - الاستماع إلى الـ Stream عبر `stream.listen()`.
+    - التكرار على التدفق باستخدام `await for`.
+  - 🟡 **Introduction:**
+    - تحويل البيانات أثناء التدفق عبر `stream.map()` و `stream.where()`.
+    - قاعدة الأمان الذهبية: إيقاف وإلغاء الاشتراك عند الانتهاء `subscription.cancel()`.
+    - إنشاء بث بسيط عبر `StreamController`.
+  - 🔵 **Advanced Exposure:** الفرق بين Single-Subscription و Broadcast Streams، ومفهوم الـ Backpressure.
+  - 🟣 **Future Learning:** تصميم مشغلات تفاعلية مخصصة (Custom Reactive Operators) والتعامل مع RxDart المتقدم.
   - *المشروع العملي:* Real-Time Metrics & Event Bus Engine.
 
-- **Lecture 09: Isolates, Concurrency & Memory**
-  - نموذج الفاعل (Actor Model) وتعدد خطوط التنفيذ دون ذاكرة مشتركة.
-  - متى نستخدم Isolates؟ (تجنب تجميد الـ UI ومعالجة العمليات الحسابية الضخمة).
-  - `Isolate.spawn`، `ReceivePort`، و`SendPort`، وآلية Message Passing.
-  - Dart 2.19+ `Isolate.run` والتعامل الحديث مع المهام المنفصلة.
-  - نقل البيانات عالي الكفاءة عبر `TransferableTypedData`.
-  - نظرة معمارية على Dart Garbage Collector (Generational GC: Scavenge vs Mark-Sweep).
+- **Lecture 09: Heavy Work: Background Isolates & Concurrency Intro**
+  - **المتطلبات السابقة:** إتقان البرمجة غير المتزامنة والـ Streams.
+  - 🟢 **Core Learning:**
+    - متى يتجمد البرنامج؟ العمليات الحسابية الضخمة التي تستهلك المعالج (CPU-Bound).
+    - الحل العملي البسيط: نقل الحسابات الثقيلة للخلفية بـ `Isolate.run()`.
+  - 🟡 **Introduction:**
+    - مفهوم العزل: لماذا تمتلك كل Isolate ذاكرتها الخاصة تماماً؟
+    - مقارنة بسيطة بين تعدد الخيوط مع الذاكرة المشتركة (خطر الـ Race Conditions) ونموذج الرسائل (Dart Message Passing).
+  - 🔵 **Advanced Exposure:** إنشاء قنوات اتصال يدوية باستخدام `ReceivePort` و `SendPort`.
+  - 🟣 **Future Learning:** إدارة أحواض العزل (Isolate Pools)، ونقل البيانات الكبيرة بـ `TransferableTypedData` والـ Garbage Collector Internals.
   - *المشروع العملي:* High-Throughput Heavy Data Cruncher.
 
 - **Weekly Assessment 3:**
-  - مراجعة تفاعلية ومحاكاة يدوية لترتيب الـ Event Loop.
-  - اختبار عملي في إنشاء Isolates والتحكم في تدفق الـ Streams.
-  - تحدي التزامن المعقد (Concurrency Challenge 3).
+  - اختبار محاكاة ترتيب الأحداث غير المتزامنة، وبناء خدمة تحميل بيانات وهمية ومعالجتها.
 
 ---
 
-### الأسبوع الرابع: Engineering Quality, Tooling & Dart VM Internals
-*الهدف:* تحويل الكود إلى برمجيات صناعية جاهزة للإنتاج، واختبارها وقياس أدائها وتجميعها.
+### الأسبوع الرابع: الجودة، الاختبارات، وهندسة البرمجيات
+*الهدف:* كتابة كود احترافي نظيف، واختباره والتأكد من صموده قبل الانتقال إلى معمارية Flutter.
 
-- **Lecture 10: Dart Ecosystem & Package Engineering**
-  - هيكل الحزم القياسي (Package Layout Conventions: `lib/`, `bin/`, `example/`, `test/`).
-  - ملف `pubspec.yaml` وإدارة التبعيات الصارمة (Semantic Versioning `^1.0.0`).
-  - التصدير والكبسلة: `library`, `part`, `part of`, و`export` وشروط الـ Public API.
-  - التوثيق الاحترافي بكود Dart وعلامات `///` ومولد `dart doc`.
-  - معايير التحليل الثابت (Static Analysis): `analysis_options.yaml` وقواعد Linter المتقدمة.
+- **Lecture 10: Organizing Code: Modular Packages & Libraries**
+  - **المتطلبات السابقة:** القدرة على كتابة كلاسات ودوال وبرامج متكاملة.
+  - 🟢 **Core Learning:**
+    - تنظيم المشروع في ملفات ومجلدات منفصلة (`lib/`, `bin/`).
+    - استيراد واستخدام الملفات: `import`.
+    - ملف تكوين المشروع `pubspec.yaml` وإضافة مكتبات خارجية.
+  - 🟡 **Introduction:**
+    - قواعد كتابة الكود النظيف (Clean Code & Effective Dart).
+    - التوثيق بكود Dart عبر التعليقات التوضيحية `///`.
+    - إعداد وتفعيل الـ Linter عبر `analysis_options.yaml`.
+  - 🔵 **Advanced Exposure:** معايير الـ Semantic Versioning (SemVer) وبناء الحزم للمكتبات المشتركة.
+  - 🟣 **Future Learning:** نشر وإدارة حزم مفتوحة المصدر على Pub.dev وإعداد الـ CI/CD Workflows.
   - *المشروع العملي:* Enterprise-Grade Open Source Package.
 
-- **Lecture 11: Testing, Debugging & Software Quality**
-  - أهرامات الاختبار (Testing Pyramid) في Dart.
-  - حزمة `test`: Unit Testing, Groups, Matchers, Setup/TearDown.
-  - تقنيات الـ Mocking: `mockito` وعزل التبعيات والـ Dependency Injection.
-  - قياس نسبة التغطية (Code Coverage) وتوليد تقارير LCOV.
-  - تقنيات تصحيح الأخطاء المتقدمة، Breakpoints، وAssert Statements في بيئة التطوير.
+- **Lecture 11: Software Quality: Testing & Debugging Mindset**
+  - **المتطلبات السابقة:** معرفة تنظيم الملفات وبناء البرامج من المحاضرات السابقة.
+  - 🟢 **Core Learning:**
+    - لماذا نختبر الكود آلياً بدلاً من التجربة اليدوية المرهقة؟
+    - أول اختبار آلي باستخدام مكتبة `test`: كتابة دالة `test()` و فحص النتيجة بـ `expect()`.
+    - اختبار الحالات الطبيعية (Happy Path) والحالات الخاطئة.
+    - استخدام الـ Debugger و الـ Breakpoints بدلاً من الـ `print` العشوائي.
+  - 🟡 **Introduction:**
+    - تجميع الاختبارات في مجموعات منطقية `group()`.
+    - محاكاة التبعيات الخارجية البسيطة (Stubbing & Basic Mocking).
+  - 🔵 **Advanced Exposure:** قياس نسبة تغطية الاختبارات للكود (Code Coverage) واستخدام `mockito`.
+  - 🟣 **Future Learning:** اختبارات التوافقية الموسعة (Integration & Property-Based Testing).
   - *المشروع العملي:* Industrial Test Suite & Quality Harness.
 
-- **Lecture 12: Runtime, Compilation & Performance**
-  - تشريح Dart VM الداخلي: Memory Pages, Heap, Scavenger, Global Allocations.
-  - خط أنابيب التجميع: JIT (Just-In-Time) للتطوير وAOT (Ahead-Of-Time) للإنتاج.
-  - قياس الأداء العملي عبر `BenchmarkBase` والتحليل الزمني الدقيق بالـ Microseconds.
-  - تجنب فخاخ الأداء: فخاخ تخصيص الكائنات المتكررة، استهلاك الذاكرة في المجموعات الكبيرة، والـ Const Canonicalization.
-  - مراجعة شاملة لربط كافة أجزاء الكورس قبل الانتقال إلى المشروع النهائي.
+- **Lecture 12: Foundations of Performance & The Flutter Gateway**
+  - **المتطلبات السابقة:** استيعاب كامل لجميع موضوعات الأسابيع الأربعة.
+  - 🟢 **Core Learning:**
+    - مراجعة شاملة لجميع المفاهيم الأساسية: من المتغيرات إلى الـ OOP والـ Async.
+    - كيف تفكر كمهندس قبل كتابة أي سطر كود جديد؟
+    - قائمة التحقق الكاملة للجدارة والاستقلال البرمجي.
+  - 🟡 **Introduction:**
+    - التمهيد لمعمارية Flutter: كيف تتحول مفاهيم Dart التي تعلمناها إلى شاشات وحالات وتطبيقات حية؟
+    - قياس زمن تنفيذ الكود عبر `Stopwatch`.
+  - 🔵 **Advanced Exposure:** نظرة عامة على الـ Dart DevTools ومراقبة الذاكرة.
+  - 🟣 **Future Learning:** تجميع الـ AOT والـ Machine Code و Profiling المعالجات المتقدمة في الـ Enterprise.
   - *المشروع العملي:* High-Performance Engine Optimizer.
 
 - **Weekly Assessment 4:**
-  - اختبار شامل على هندسة الحزم والاختبارات وتحسين الأداء.
-  - تسليم خطة مشروع التخرج النهائي.
+  - المراجعة الشاملة النهائية، تسليم مشروع التخرج، وجلسة الدفاع الهندسي المستقلة.
 
 ---
 

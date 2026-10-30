@@ -1,9 +1,10 @@
 # Dart Advanced Mastery Training Program 🚀
-> **برنامج تدريبي هندسي متكامل لاحتراف لغة Dart من الصفر المعماري وحتى هندسة النظم المتقدمة**
+> **برنامج تدريبي هندسي متكامل: من الصفر البرمجي المطلق وحتى التأسيس المعماري الصلب في Dart**
 >
-> **الإصدار الأساسي المعتمد:** Dart 3.8.1+ (مع إبراز تحديثات Dart الحديثة)  
-> **المدة الإجمالية:** 4 أسابيع | 12 محاضرة هندسية | 24 ساعة تدريب مباشر + 40 ساعة تطبيقات عملية  
-> **الجمهور المستهدف:** مهندسو البرمجيات ومطورو Flutter الساعون لامتلاك لغة Dart بعمق الـ Compiler والـ Runtime وأنماط التصميم المعمارية.
+> **نقطة الانطلاق:** يفترض أن الطالب **يبدأ من الصفر التام** (لا يعرف الـ Syntax أو المتغيرات أو الدوال أو الـ OOP).  
+> **الإصدار الأساسي المعتمد:** Dart 3.8.1+ (متوافق مع أحدث إصدارات Dart 3.x)  
+> **المدة الإجمالية:** 4 أسابيع | 12 محاضرة هندسية متدرجة | 24 ساعة تدريب مباشر + 40 ساعة تطبيقات عملية  
+> **منهجية التدرج:** سلم المراحل التسع (Real-life Analogy $\rightarrow$ Problem Solving) وتصنيف الموضوعات إلى 4 مستويات استيعابية (Core, Introduction, Advanced Exposure, Future Learning).
 
 ---
 
@@ -14,11 +15,12 @@
 ```text
 dart_advanced_mastery/
 ├── 00_PROGRAM_GUIDE/                   # دليل المنهج، خارطة التعلم، وأدلة التدريس والدراسة
-│   ├── MASTER_CURRICULUM.md            # المنهج الشامل والتفصيلي لجميع الأسابيع
+│   ├── BEGINNER_TO_ENGINEER_PEDAGOGY.md # إطار التكييف البيداغوجي من الصفر المطلق إلى هندسة النظم
+│   ├── MASTER_CURRICULUM.md            # المنهج الشامل والمتطلبات السابقة لكل محاضرة
 │   ├── LEARNING_ROADMAP.md             # خارطة الطريق التقنية والمهارية
-│   ├── INSTRUCTOR_TEACHING_PLAYBOOK.md # دليل واستراتيجيات المحاضر (طريقة الشرح والـ 4 Levels)
-│   └── STUDENT_STUDY_GUIDE.md          # دليل الطالب وإرشادات المذاكرة والحل
-├── 01_WEEK_01/                         # الأسبوع 1: Foundations, Type System & Modern Syntax
+│   ├── INSTRUCTOR_TEACHING_PLAYBOOK.md # دليل واستراتيجيات المحاضر وطرق تبسيط المفاهيم
+│   └── STUDENT_STUDY_GUIDE.md          # دليل الطالب وإرشادات المذاكرة للمبتدئين
+├── 01_WEEK_01/                         # الأسبوع 1: التأسيس الحاسوبي، المتغيرات، الدوال، والمجموعات
 │   ├── lecture_01/                     # المحاضرة 1: Language Architecture & Type System
 │   ├── lecture_02/                     # المحاضرة 2: Functions, Scope & Execution Model
 │   ├── lecture_03/                     # المحاضرة 3: Collections, Records & Patterns
@@ -40,7 +42,11 @@ dart_advanced_mastery/
 │   └── weekly_assessment/              # مراجعة واختبار الأسبوع الرابع
 ├── 05_FINAL_PROJECT/                   # مشروع التخرج: Dart Modular Engineering Core
 ├── 06_SHARED_RESOURCES/                # القاموس الموحد، أدوات الفحص، والمصادر المرجعية
-└── 07_EXAMS_AND_ASSESSMENTS/           # الامتحانات النهائية وبنك الأسئلة التراكمي
+├── 07_EXAMS_AND_ASSESSMENTS/           # الامتحانات النهائية وبنك الأسئلة التراكمي
+├── 08_INSTRUCTOR_DEVELOPMENT/          # كفاءات المحاضر، البيداغوجيا، البرمجة الحية، والتقييم الذاتي
+├── 09_STUDENT_COGNITIVE_DEVELOPMENT/   # عقلية المهندس، التفكير النقدي، منهجية ستانفورد، ومتابعة الطلاب
+├── 10_TEACHING_ENHANCEMENTS/           # افتتاحيات المحاضرات، بنك المفاهيم الخاطئة، وجسر Dart-to-Flutter
+└── 11_QUALITY_AUDIT/                   # تدقيق جودة المنهج، تقارير الفحص البرمجي، وخارطة التطوير
 ```
 
 ---
