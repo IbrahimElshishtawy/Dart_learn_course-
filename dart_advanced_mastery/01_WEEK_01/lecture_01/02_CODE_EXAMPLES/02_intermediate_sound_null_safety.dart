@@ -61,12 +61,17 @@ void main() {
   print('Fallback email 2: $displayEmail2');
 
   // 3. Null-Coalescing Assignment Operator (??=)
-  int? sessionScore;
-  print('Initial sessionScore: $sessionScore');
-  sessionScore ??= 100; // Assigns 100 because sessionScore is null
-  print('After ??= 100: $sessionScore');
-  sessionScore ??= 500; // Does not assign because sessionScore is already 100
-  print('After second ??= 500: $sessionScore');
+  int? assignIfNull(int? current, int fallback) {
+    var temp = current;
+    temp ??= fallback;
+    return temp;
+  }
+
+  int? initialScore;
+  final firstAssignment = assignIfNull(initialScore, 100);
+  final secondAssignment = assignIfNull(firstAssignment, 500);
+  print('Initial score assignment: $firstAssignment');
+  print('Second assignment on existing score: $secondAssignment');
 
   print('\n=== STEP 4: Dart Flow Analysis & Automatic Type Promotion ===');
   processCustomerEmail(customerWithNulls.secondaryEmail);

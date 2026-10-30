@@ -22,6 +22,12 @@ void main() {
   ];
   print('Standard User Permissions: $userRolePermissions');
 
+  final superAdminPermissions = [
+    ...userRolePermissions,
+    ...adminPermissions,
+  ];
+  print('SuperAdmin Combined Permissions: $superAdminPermissions');
+
   print('\n=== STEP 2: Collection-if for Declarative Assembly ===');
   bool isSuperAdmin = true;
   bool isMaintenanceWindow = false;

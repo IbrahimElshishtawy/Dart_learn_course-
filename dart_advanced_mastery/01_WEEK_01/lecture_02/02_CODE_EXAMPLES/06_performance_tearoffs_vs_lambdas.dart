@@ -12,11 +12,11 @@ class MathEngine {
 }
 
 void main() {
-  const int iterations = 5000000;
+  const int totalOperations = 5000000;
   final testDataset = List<int>.generate(1000, (i) => i);
 
   print('=== BENCHMARK: Tear-off vs Redundant Lambda in Higher-Order Functions ===');
-  print('Running 5,000 iterations over 1,000-element collection (5,000,000 operations)...\n');
+  print('Running $totalOperations total operations over 1,000-element collections...\n');
 
   // Warm up JIT compiler
   int warmAccumulator = 0;
