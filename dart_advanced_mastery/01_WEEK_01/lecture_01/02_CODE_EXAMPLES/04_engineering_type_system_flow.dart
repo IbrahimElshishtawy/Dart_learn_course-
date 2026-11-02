@@ -1,14 +1,13 @@
 /// ==============================================================================
-/// File: 04_engineering_type_system_flow.dart
-/// Educational Objective: Master Dart's `Never` bottom-type semantics, advanced
-/// flow analysis with definite assignments, and architect a robust industrial-grade
-/// Financial Transaction Validation model.
+/// اسم الملف: 04_engineering_type_system_flow.dart
+/// الهدف التعليمي: فهم نوع القاع `Never` في Dart، والتحليل المتقدم لتدفق الكود
+/// مع الإسناد الحتمي (Definite Assignment)، وبناء نموذج تدقيق مالي قوي واحترافي.
 ///
-/// Execution:
+/// طريقة التشغيل:
 ///   dart run 04_engineering_type_system_flow.dart
 /// ==============================================================================
 
-/// Custom Domain Exception
+/// استثناء مخصص لانتهاكات الأمان (Custom Exception)
 class SecurityViolationException implements Exception {
   final String message;
   final DateTime timestamp;
@@ -19,14 +18,14 @@ class SecurityViolationException implements Exception {
   String toString() => '[$timestamp] SecurityViolationException: $message';
 }
 
-/// A function returning `Never` CANNOT return a value under any circumstances.
-/// It either throws an exception or enters an infinite loop.
-/// The Dart compiler uses this for Dead Code Detection and definite assignment.
+/// الدالة اللي نوع إرجاعها `Never` مستحيل ترجع أي قيمة تحت أي ظرف!
+/// يا إما بترمي Exception يوقف التنفيذ، يا إما بتدخل في Infinite Loop.
+/// مترجم Dart بيستخدم ده عشان يعرف إن الكود اللي بعدها ميت (Dead Code) ولترقية الأنواع تلقائياً.
 Never abortWithSecurityBreach(String breachDetails) {
   throw SecurityViolationException(breachDetails);
 }
 
-/// Financial Transaction Entity
+/// كلاس بيمثل المعاملة المالية
 class FinancialTransaction {
   final String transactionId;
   final double amount;
@@ -43,43 +42,43 @@ class FinancialTransaction {
   });
 }
 
-/// Industrial-Grade Validator using Flow Analysis and Type Promotion
+/// مدقق مالي بمستوى هندسي عالي معتمداً على ترقية الأنواع وتحليل التدفق
 class TransactionAuditor {
-  /// Validates and sanitizes a raw transaction payload
+  /// تدقيق وتنقية بيانات المعاملة المالية
   static void auditTransaction(FinancialTransaction? tx) {
-    print('Auditing transaction: ${tx?.transactionId} ...');
+    print('جاري فحص وتدقيق المعاملة رقم: ${tx?.transactionId} ...');
 
-    // 1. Guard against null transaction
+    // 1. حماية ضد المعاملات الفارغة (null)
     if (tx == null) {
-      abortWithSecurityBreach('Transaction payload is completely null');
+      abortWithSecurityBreach('بيانات المعاملة جاية فاضية خالص (null)!');
     }
 
-    // Notice: Due to abortWithSecurityBreach returning 'Never',
-    // the Dart flow analyzer PROVES that 'tx' can never be null past this line!
-    // 'tx' is promoted from FinancialTransaction? to FinancialTransaction.
+    // خد بالك وركز: لأن دالة abortWithSecurityBreach نوعها 'Never'،
+    // فالمترجم الذكي أثبت إن السطور اللي جاية مستحيل يكون فيها 'tx' بـ null نهائي!
+    // عشان كده 'tx' اترقت تلقائياً من FinancialTransaction? إلى FinancialTransaction صريحة.
 
     if (tx.amount <= 0.0) {
-      abortWithSecurityBreach('Transaction amount must be strictly positive: ${tx.amount}');
+      abortWithSecurityBreach('مبلغ المعاملة لازم يكون موجب وأكبر من الصفر: ${tx.amount}');
     }
 
     if (tx.sourceIban == tx.targetIban) {
-      abortWithSecurityBreach('Source and destination IBANs cannot be identical: ${tx.sourceIban}');
+      abortWithSecurityBreach('مينفعش الآيبان المحول منه يكون هو نفسه المحول إليه: ${tx.sourceIban}');
     }
 
-    // IP Address validation with localized type promotion
+    // التحقق من عنوان الآي بي (IP) مع ترقية النوع محلياً
     final String verifiedIp;
     if (tx.ipAddress != null && tx.ipAddress!.trim().isNotEmpty) {
       verifiedIp = tx.ipAddress!;
     } else {
-      verifiedIp = '0.0.0.0 (SYSTEM_INTERNAL)';
+      verifiedIp = '0.0.0.0 (نظام داخلي)';
     }
 
-    print('>> AUDIT PASSED: Transaction ${tx.transactionId} for \$${tx.amount.toStringAsFixed(2)} verified from IP: $verifiedIp');
+    print('>> تمت الموافقة والتدقيق: المعاملة ${tx.transactionId} بقيمة \$${tx.amount.toStringAsFixed(2)} من الآي بي: $verifiedIp');
   }
 }
 
 void main() {
-  print('=== STEP 1: Testing Successful Valid Transaction ===');
+  print('=== الخطوة 1: اختبار معاملة مالية سليمة ومكتملة ===');
   const validTx = FinancialTransaction(
     transactionId: 'TX_EG_9812401',
     amount: 15450.75,
@@ -90,7 +89,7 @@ void main() {
 
   TransactionAuditor.auditTransaction(validTx);
 
-  print('\n=== STEP 2: Testing Zero/Negative Amount Violation ===');
+  print('\n=== الخطوة 2: اختبار معاملة بمبلغ صفر أو بالسالب ===');
   const invalidAmountTx = FinancialTransaction(
     transactionId: 'TX_EG_ZERO_AMT',
     amount: -50.0,
@@ -101,24 +100,24 @@ void main() {
   try {
     TransactionAuditor.auditTransaction(invalidAmountTx);
   } on SecurityViolationException catch (e) {
-    print('CAUGHT EXPECTED AUDIT REJECTION: $e');
+    print('مسكنا الرفض الأمني المتوقع: $e');
   }
 
-  print('\n=== STEP 3: Testing Same-Account Fraud Attempt ===');
+  print('\n=== الخطوة 3: اختبار محاولة احتيال بالتحويل لنفس الحساب ===');
   const fraudTx = FinancialTransaction(
     transactionId: 'TX_EG_SELF_LOOP',
     amount: 1000.0,
     sourceIban: 'EG120002000100000012345678901',
-    targetIban: 'EG120002000100000012345678901', // Identical!
+    targetIban: 'EG120002000100000012345678901', // نفس الحساب بالضبط!
   );
 
   try {
     TransactionAuditor.auditTransaction(fraudTx);
   } on SecurityViolationException catch (e) {
-    print('CAUGHT EXPECTED AUDIT REJECTION: $e');
+    print('مسكنا الرفض الأمني المتوقع: $e');
   }
 
-  print('\n=== STEP 4: Demonstrating Compiler Dead-Code Knowledge with Never ===');
+  print('\n=== الخطوة 4: توضيح معرفة المترجم بالكود الميت (Dead Code) بفضل Never ===');
   demonstrateCompilerDeadCode();
 }
 
@@ -126,31 +125,28 @@ void demonstrateCompilerDeadCode() {
   bool simulateCriticalAlert = true;
 
   if (simulateCriticalAlert) {
-    print('Demonstrating Never: Calling abort function...');
+    print('توضيح Never: بننادي دالة الإيقاف الأمني...');
     try {
-      abortWithSecurityBreach('Critical infrastructure alert triggered');
-      // Any code here would be flagged by the compiler as unreachable!
+      abortWithSecurityBreach('تم تفعيل إنذار أمني طارئ في النظام!');
+      // لو كتبت أي سطر هنا المترجم هيحط تحته خط أحمر ويقولك unreachable code!
     } on SecurityViolationException catch (e) {
-      print('Caught: $e');
+      print('مسكنا الاستثناء: $e');
     }
   }
 }
 
 /*
 ================================================================================
-ENGINEERING RATIONALE & BEST PRACTICES
+الأساس الهندسي وأفضل الممارسات (بالبلدي كده)
 ================================================================================
-1. The Bottom Type `Never`:
-   - In type theory, `Never` has no values. No variable can ever hold an instance of `Never`.
-   - When a function's return type is `Never`, it tells the compiler's control-flow graph
-     that execution halts right there.
-   - This empowers the compiler to promote types in the enclosing function without requiring
-     an explicit `else` or `return` block.
+1. نوع القاع `Never` (The Bottom Type):
+   - في علم لغات البرمجة، `Never` نوع ملوش أي قيم خالص، ومفيش متغير يقدر يشيل قيمة منه.
+   - لما دالة ترجع `Never`، المترجم بيفهم فوراً إن مسار التنفيذ بينتهي تماماً هنا ومبيكملش.
+   - ده بيخلي المترجم ذكي كفاية إنه يرقي الأنواع بعد السطر ده من غير ما تحتاج تكتب `else` أو بلوكات ملهاش لزمة.
 
-2. Definite Assignment:
-   - Dart verifies that non-nullable local variables are assigned along all execution paths
-     before they are read.
-   - Notice how `verifiedIp` in `auditTransaction` is declared without an initializer (`final String verifiedIp;`)
-     and assigned on both `if` and `else` branches. The compiler guarantees it is initialized exactly once.
+2. الإسناد الحتمي والمضمون (Definite Assignment):
+   - Dart بتتأكد إن أي متغير محلي غير قابل للـ null أخد قيمة في كل مسارات الكود قبل ما تحاول تقراه.
+   - لاحظ إزاي `verifiedIp` في دالة التدقيق اتعرفت من غير قيمة ابتدائية (`final String verifiedIp;`)
+     وتم إسنادها في الـ `if` والـ `else`، فالمترجم ضمن 100% إنها مش هتتقرأ وهي فاضية أبداً.
 ================================================================================
 */

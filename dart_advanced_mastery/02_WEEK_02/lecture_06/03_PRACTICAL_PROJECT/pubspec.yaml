@@ -1,0 +1,10 @@
+name: generic_entity_cache
+description: A type-safe in-memory generic entity cache library with LRU eviction and TTL policy in pure Dart.
+version: 1.0.0
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0

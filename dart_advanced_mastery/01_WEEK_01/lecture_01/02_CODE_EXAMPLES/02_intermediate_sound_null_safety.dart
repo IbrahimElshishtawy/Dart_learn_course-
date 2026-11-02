@@ -1,16 +1,17 @@
 /// ==============================================================================
-/// File: 02_intermediate_sound_null_safety.dart
-/// Educational Objective: Master Dart's Sound Null Safety, Flow Analysis,
-/// Type Promotion, and Null-Aware operators (`?.`, `??`, `??=`).
+/// اسم الملف: 02_intermediate_sound_null_safety.dart
+/// الهدف التعليمي: إتقان نظام الأمان الصارم للـ Null (Sound Null Safety)،
+/// وتحليل تدفق الكود (Flow Analysis)، وترقية الأنواع (Type Promotion)،
+/// ومعاملات الحماية (`?.`، `??`، `??=`).
 ///
-/// Execution:
+/// طريقة التشغيل:
 ///   dart run 02_intermediate_sound_null_safety.dart
 /// ==============================================================================
 
 class CustomerProfile {
   final String id;
   final String fullName;
-  final String? secondaryEmail; // Explicitly nullable: may or may not exist
+  final String? secondaryEmail; // بيقبل null صراحة: ممكن يكون موجود وممكن لأ
   final int? loyaltyPoints;
 
   const CustomerProfile({
@@ -22,13 +23,13 @@ class CustomerProfile {
 }
 
 void main() {
-  print('=== STEP 1: Non-Nullable by Default ===');
-  // In Dart, variables cannot be null unless explicitly annotated with '?'
+  print('=== الخطوة 1: كل حاجة ممنوع تكون Null بشكل افتراضي ===');
+  // في Dart، أي متغير مستحيل يشيل null إلا لو حطيت له علامة '?' صراحة
   String primaryEmail = 'eng.ibrahim@example.com';
-  // primaryEmail = null; // COMPILE ERROR: The value 'null' cannot be assigned to a variable of type 'String'.
-  print('Guaranteed non-null primary email: $primaryEmail');
+  // primaryEmail = null; // خطأ وقت الترجمة: مينفعش تحط قيمة 'null' في متغير نوعه 'String'!
+  print('إيميل أساسي مضمون إنه مش null أبداً: $primaryEmail');
 
-  print('\n=== STEP 2: Instantiating Nullable Profiles ===');
+  print('\n=== الخطوة 2: إنشاء بروفايلات بتقبل الـ Null ===');
   final customerWithNulls = CustomerProfile(
     id: 'cust_001',
     fullName: 'Youssef Mansour',
@@ -43,93 +44,95 @@ void main() {
     loyaltyPoints: 350,
   );
 
-  print('Profile 1: ${customerWithNulls.fullName}, Sec Email: ${customerWithNulls.secondaryEmail}');
-  print('Profile 2: ${customerComplete.fullName}, Sec Email: ${customerComplete.secondaryEmail}');
+  print('البروفايل الأول: ${customerWithNulls.fullName}، الإيميل الثانوي: ${customerWithNulls.secondaryEmail}');
+  print('البروفايل الثاني: ${customerComplete.fullName}، الإيميل الثانوي: ${customerComplete.secondaryEmail}');
 
-  print('\n=== STEP 3: Null-Aware Operators in Action ===');
+  print('\n=== الخطوة 3: معاملات الأمان للـ Null على أرض الواقع ===');
 
-  // 1. Safe Navigation Operator (?.): Evaluates to null if receiver is null, without throwing NullPointerException
+  // 1. معامل الوصول الآمن (?. Safe Navigation Operator):
+  // لو القيمة null، بينزل null بهدوء ومبيعملش Crash ولا NullPointerException
   int? emailLength1 = customerWithNulls.secondaryEmail?.length;
   int? emailLength2 = customerComplete.secondaryEmail?.length;
-  print('Safe navigation length 1: $emailLength1'); // null
-  print('Safe navigation length 2: $emailLength2'); // 22
+  print('طول الإيميل بالأمان الأول: $emailLength1'); // null
+  print('طول الإيميل بالأمان الثاني: $emailLength2'); // 22
 
-  // 2. Null-Coalescing Operator (??): Provides a guaranteed default fallback value
+  // 2. معامل الدمج وتوفير قيمة بديلة (?? Null-Coalescing Operator):
+  // بيضمن قيمة افتراضية في حال كانت القيمة الأساسية null
   String displayEmail1 = customerWithNulls.secondaryEmail ?? 'no-secondary-email@system.internal';
   String displayEmail2 = customerComplete.secondaryEmail ?? 'no-secondary-email@system.internal';
-  print('Fallback email 1: $displayEmail1');
-  print('Fallback email 2: $displayEmail2');
+  print('الإيميل البديل للأول: $displayEmail1');
+  print('الإيميل البديل للثاني: $displayEmail2');
 
-  // 3. Null-Coalescing Assignment Operator (??=)
+  // 3. معامل الإسناد عند الفراغ فقط (??= Null-Coalescing Assignment Operator)
   int? assignIfNull(int? current, int fallback) {
     var temp = current;
-    temp ??= fallback;
+    temp ??= fallback; // مش هيحط fallback غير لو temp بـ null فعلاً
     return temp;
   }
 
   int? initialScore;
   final firstAssignment = assignIfNull(initialScore, 100);
   final secondAssignment = assignIfNull(firstAssignment, 500);
-  print('Initial score assignment: $firstAssignment');
-  print('Second assignment on existing score: $secondAssignment');
+  print('أول إسناد للنقاط (كانت فاضية فأخدت 100): $firstAssignment');
+  print('ثاني إسناد (كانت خلاص مليانة ففضلت زي ما هي 100): $secondAssignment');
 
-  print('\n=== STEP 4: Dart Flow Analysis & Automatic Type Promotion ===');
+  print('\n=== الخطوة 4: تحليل تدفق الكود وترقية النوع تلقائياً (Flow Analysis & Type Promotion) ===');
   processCustomerEmail(customerWithNulls.secondaryEmail);
   processCustomerEmail(customerComplete.secondaryEmail);
 
-  print('\n=== STEP 5: Dangerous Pattern: Force Unwrap (!) ===');
+  print('\n=== الخطوة 5: الحركة الخطيرة: الفك الإجباري باستخدام علامة التعجب (!) ===');
   demonstrateForceUnwrapSafety(customerComplete.secondaryEmail);
   demonstrateForceUnwrapDanger(customerWithNulls.secondaryEmail);
 }
 
-/// Demonstrates flow analysis promoting a nullable parameter to non-nullable
+/// بتوضح إزاي الـ Flow Analysis بيرقي المتغير من يقبل null إلى غير قابل للـ null
 void processCustomerEmail(String? rawEmail) {
   if (rawEmail == null) {
-    print('Flow Analysis: rawEmail is null. Skipping notification.');
+    print('تحليل التدفق: الإيميل طلع فاضي (null). هنتخطى الإشعار.');
     return;
   }
 
-  // At this point, the Dart compiler's Flow Analysis PROVES rawEmail CANNOT be null!
-  // Notice: We call .toUpperCase() directly without '?.' or '!'
+  // في اللحظة دي، المترجم الذكي أثبت 100% إن rawEmail مستحيل يكون null عشان عدينا الـ if!
+  // خد بالك: بننادي .toUpperCase() مباشرة من غير '?.' ولا '!'
   String guaranteedString = rawEmail.toUpperCase();
-  print('Flow Analysis Promotion: Cleaned email is "$guaranteedString"');
+  print('ترقية النوع بنجاح: الإيميل بعد التنظيف بقى "$guaranteedString"');
 }
 
 void demonstrateForceUnwrapSafety(String? knownNonNull) {
-  // Using '!' asserts to the compiler: "I guarantee this is not null."
+  // استخدام '!' معناه إنك بتقسم للمترجم: "على ضمانتي، المتغير ده مش null دلوقتي"
   String value = knownNonNull!;
-  print('Force unwrap succeeded on non-null: $value');
+  print('الفك الإجباري نجح لأن القيمة فعلاً مش فاضية: $value');
 }
 
 void demonstrateForceUnwrapDanger(String? knownNull) {
   try {
-    // Dangerous! Throws TypeError / Null check operator used on a null value
+    // حركة خطيرة جداً! هتعمل Crash وترمي خطأ Null check operator used on a null value
     String value = knownNull!;
-    print('This will never print: $value');
+    print('السطر ده عمره ما هيتطبع: $value');
   } catch (e) {
-    print('CAUGHT NULL CHECK EXCEPTION: $e');
+    print('مسكنا الخطأ الكارثي للـ Null Check: $e');
   }
 }
 
 /*
 ================================================================================
-TECHNICAL BREAKDOWN & PEDAGOGICAL NOTES
+الشرح الفني وملاحظات تعليمية (بالبلدي كده)
 ================================================================================
-1. Why "Sound" Null Safety?
-   - Before Sound Null Safety, any reference variable could contain null at runtime,
-     leading to unpredictable NoSuchMethodError or NullPointerExceptions in production.
-   - With Dart's sound type system, if a type does not have a '?', the Dart VM guarantees
-     at both compile time and runtime that null will NEVER be stored in that memory slot.
+1. ليه بنقول عليه نظام أمان "Sound"؟
+   - زمان قبل الـ Sound Null Safety، كان أي متغير ممكن فجأة يجيله null وقت التشغيل،
+     وكانت التطبيقات بتضرب في وش المستخدم بأخطاء NoSuchMethodError المشهورة.
+   - مع نظام Dart الصارم، لو المتغير مفيش بعده علامة '?'، فالـ Dart VM بتضمن لك في الـ Compile
+     وفي الـ Runtime إنه مستحيل يدخل جواه null أبداً.
 
-2. Flow Analysis & Promotion:
-   - Dart inspects control flow branches (if, return, throw).
-   - If a code branch checks `if (variable == null) return;`, all subsequent statements
-     in that scope automatically promote the variable from `Type?` to `Type`.
-   - Note: Class fields cannot be promoted across function boundaries if they are public
-     and non-final, because a getter could return null on a subsequent call.
+2. تحليل التدفق وترقية النوع (Flow Analysis & Promotion):
+   - Dart بتمشي مع تفرعات الكود سطر بسطر (if, return, throw).
+   - لو شافت سطر `if (variable == null) return;`، أي سطر بعده جوة نفس النطاق بيترقى
+     أوتوماتيك من `Type?` إلى `Type` صريح ونظيف.
+   - خد بالك: الـ Fields العامة في الكلاسات مش بتترقى بسهولة كده لو مش `final`، لأن ممكن كود
+     خارجي يغير قيمتها في النص.
 
-3. Best Practices:
-   - Minimize the use of the `!` (bang/force unwrap) operator. Every `!` is a potential crash.
-   - Use default fallbacks (`??`) or explicit guard clauses with early returns.
+3. نصائح احترافية:
+   - قلل جداً من استخدام علامة التعجب `!`؛ كل علامة `!` هي قنبلة موقوتة ومشروع Crash لتطبيقك.
+   - اعتمد دايماً على القيم الافتراضية البديلة `??` أو اعمل فحص مبكر واخرج بـ `return`.
 ================================================================================
 */

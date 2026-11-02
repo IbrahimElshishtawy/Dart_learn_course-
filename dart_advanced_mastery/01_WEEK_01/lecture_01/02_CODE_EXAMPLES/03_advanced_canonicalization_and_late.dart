@@ -1,10 +1,10 @@
 /// ==============================================================================
-/// File: 03_advanced_canonicalization_and_late.dart
-/// Educational Objective: Master Dart memory management through `final` vs `const`,
-/// understand object canonicalization via `identical()`, and dissect the `late`
-/// modifier's internal mechanics and failure modes.
+/// اسم الملف: 03_advanced_canonicalization_and_late.dart
+/// الهدف التعليمي: فهم إدارة الذاكرة في Dart والفرق بين `final` و `const`،
+/// وفهم توحيد الكائنات في الذاكرة (Canonicalization) باستخدام `identical()`،
+/// وتشريح الميكانيكا الداخلية للكلمة المفتاحية `late` وسيناريوهات الفشل بتاعتها.
 ///
-/// Execution:
+/// طريقة التشغيل:
 ///   dart run 03_advanced_canonicalization_and_late.dart
 /// ==============================================================================
 
@@ -12,7 +12,7 @@ class ImmutableCoordinate {
   final double x;
   final double y;
 
-  // A const constructor enables compile-time evaluation and canonicalization
+  // الـ const constructor بيخلي Dart تحسب الكائن وقت الـ Compile وتوحده في الذاكرة (Canonicalization)
   const ImmutableCoordinate(this.x, this.y);
 
   @override
@@ -21,7 +21,7 @@ class ImmutableCoordinate {
 
 class HeavyCalculationService {
   HeavyCalculationService() {
-    print('>> [EXPENSIVE] HeavyCalculationService constructor executed! Heavy resources loaded.');
+    print('>> [عملية ثقيلة ومكلفة] اشتغل الـ Constructor بتاع HeavyCalculationService وحمّل ملفات وموارد ضخمة!');
   }
 
   double computeMatrixEigenValue() {
@@ -30,10 +30,11 @@ class HeavyCalculationService {
 }
 
 class SystemConfig {
-  // 1. Lazy evaluation via 'late': NOT instantiated until the first read access!
+  // 1. التحميل الكسول (Lazy Evaluation) باستخدام 'late':
+  // مش هيتعمله إنشاء في الذاكرة نهائي إلا أول ما حد يطلب يقراه!
   late final HeavyCalculationService heavyService = HeavyCalculationService();
 
-  // 2. Late initialization without initializer: Requires explicit assignment before access
+  // 2. تأجيل التحديد من غير قيمة ابتدائية: لازم تسند له قيمة يدوياً قبل ما تحاول تقراه
   late final String encryptionKey;
 
   void initializeSecurity(String key) {
@@ -42,78 +43,78 @@ class SystemConfig {
 }
 
 void main() {
-  print('=== STEP 1: const vs final & Canonicalization in Memory ===');
+  print('=== الخطوة 1: الفرق بين const و final وتوحيد الذاكرة (Canonicalization) ===');
 
-  // Both c1 and c2 are declared with 'const' and identical values.
+  // هنا c1 و c2 متعرفين بـ 'const' وبنفس القيم بالمللي
   const c1 = ImmutableCoordinate(10.0, 20.0);
   const c2 = ImmutableCoordinate(10.0, 20.0);
 
-  // Both f1 and f2 are declared with 'final' and created at runtime.
+  // هنا f1 و f2 متعرفين بـ 'final' وبيتم إنشاؤهم وقت التشغيل في الـ Heap
   final f1 = ImmutableCoordinate(10.0, 20.0);
   final f2 = ImmutableCoordinate(10.0, 20.0);
 
   print('c1: $c1, c2: $c2');
   print('f1: $f1, f2: $f2');
 
-  // identical() checks whether two references point to the exact same physical memory address
-  print('\nMemory Identity Checks:');
+  // دالة identical() بتفحص: هل المتغيرين باصين على نفس العنوان الفيزيائي في الرام (RAM) بالضبط؟
+  print('\nفحص هوية المكان في الذاكرة (Memory Identity):');
   bool constAreIdentical = identical(c1, c2);
   bool finalAreIdentical = identical(f1, f2);
 
-  print('Are c1 and c2 identical in memory? $constAreIdentical (Canonicalization: TRUE)');
-  print('Are f1 and f2 identical in memory? $finalAreIdentical (Separate Heap Allocations: FALSE)');
+  print('هل c1 و c2 نفس المكان بالضبط في الذاكرة؟ $constAreIdentical (حصل Canonicalization: نعم)');
+  print('هل f1 و f2 نفس المكان في الذاكرة؟ $finalAreIdentical (مكانين منفصلين تماماً في الـ Heap: لأ)');
 
-  print('\n=== STEP 2: The Canonicalization Rule ===');
-  print('Any const constructor with identical compile-time arguments produces');
-  print('EXACTLY ONE instance shared across the entire application lifetime.');
+  print('\n=== الخطوة 2: قاعدة التوحيد الذهبية (The Canonicalization Rule) ===');
+  print('أي كائن بيتعمل بـ const constructor وبنفس القيم وقت الـ Compile،');
+  print('بيتعمله نسخة واحدة بس في الذاكرة وبتتشارك على مدار عمر التطبيق كله.');
 
-  print('\n=== STEP 3: The Mechanics of "late" (Lazy Evaluation) ===');
-  print('Creating SystemConfig instance now...');
+  print('\n=== الخطوة 3: سحر كلمة "late" (التحميل الكسول - Lazy Evaluation) ===');
+  print('دلوقتي بننشئ نسخة من SystemConfig...');
   final config = SystemConfig();
-  print('SystemConfig instance created! Notice HeavyCalculationService was NOT created yet.');
+  print('تم إنشاء SystemConfig بنجاح! خد بالك إن HeavyCalculationService لسه ما اتعملش أصلاً.');
 
-  print('\nNow accessing config.heavyService for the first time:');
+  print('\nدلوقتي هنطلب config.heavyService لأول مرة في الكود:');
   double result = config.heavyService.computeMatrixEigenValue();
-  print('Calculation result: $result');
+  print('نتيجة الحسبة: $result');
 
-  print('\nAccessing config.heavyService a second time:');
-  // Constructor is NOT called again. The cached instance is returned.
+  print('\nهنطلب config.heavyService للمرة الثانية:');
+  // الـ Constructor مش هيشتغل تاني خلاص، هيستخدم نفس النسخة المتخزنة في الكاش
   double cachedResult = config.heavyService.computeMatrixEigenValue();
-  print('Second calculation result: $cachedResult');
+  print('نتيجة الحسبة من النسخة الكاش: $cachedResult');
 
-  print('\n=== STEP 4: The Danger of "late": LateInitializationError ===');
+  print('\n=== الخطوة 4: خطر "late" الكارثي: خطأ LateInitializationError ===');
   final uninitializedConfig = SystemConfig();
 
   try {
-    // Attempting to read 'encryptionKey' before calling initializeSecurity()
-    print('Reading encryption key: ${uninitializedConfig.encryptionKey}');
+    // بنحاول نقرأ 'encryptionKey' قبل ما ننادي initializeSecurity()
+    print('بنحاول نقرأ مفتاح التشفير: ${uninitializedConfig.encryptionKey}');
   } catch (e) {
-    print('CAUGHT RUNTIME EXCEPTION: $e');
-    print('Notice: It is NOT null! It is a fatal LateInitializationError.');
+    print('مسكنا خطأ وقت التشغيل (Runtime Exception): $e');
+    print('خد بالك: المتغير مش راجع بـ null! ده ضارب خطأ قاتل اسمه LateInitializationError.');
   }
 
-  print('\nNow initializing properly:');
+  print('\nدلوقتي هنديله القيمة بتاعته بالأصول:');
   uninitializedConfig.initializeSecurity('AES_256_GCM_SECURE_TOKEN_XYZ');
-  print('Successfully read key: ${uninitializedConfig.encryptionKey}');
+  print('قرينا المفتاح بنجاح بعد تهيئته: ${uninitializedConfig.encryptionKey}');
 }
 
 /*
 ================================================================================
-TECHNICAL BREAKDOWN & ARCHITECTURAL IMPLICATIONS
+الشرح الفني وملاحظات معمارية (بالبلدي كده)
 ================================================================================
-1. Canonicalization:
-   - When the Dart compiler encounters `const` instances with identical values,
-     it deduplicates them into a single read-only constant pool.
-   - Benefit: Massive memory savings and instantaneous equality checks using pointer
-     identity (`identical()`), which is O(1) compared to structural field comparisons.
+1. توحيد الذاكرة (Canonicalization):
+   - لما مترجم Dart يلاقي كائنات `const` واخدة نفس القيم، بيمسكهم ويدمجهم كلهم في كائن واحد
+     بس في مكان قراءة ثابت في الذاكرة (Constant Pool).
+   - الفايدة: توفير جبار في مساحة الرامات، وسرعة فائقة في المقارنة، لأن مقارنة مؤشرات الذاكرة
+     بـ `identical()` بتاخد O(1) مقارنة بفحص كل متغير جوة الكائن سطر بسطر.
 
-2. `late` Modifier Internals:
-   - Under the hood, the Dart VM transforms a `late` field into a getter/setter pair
-     with an internal sentinel flag (often implemented as a private uninitialized marker).
-   - On every access, the VM checks: "Is this sentinel still active?".
-     If yes and an initializer was provided, it executes the initializer once and caches it.
-     If yes and NO initializer was provided, it throws `LateInitializationError`.
-   - Architectural Rule: Use `late` primarily for lazy loading heavy singletons or services,
-     never as a cheap hack to bypass Null Safety.
+2. إيه اللي بيحصل تحت الكبوت مع كلمة `late`؟
+   - الـ Dart VM بتحول المتغير اللي واخد `late` إلى دالة Getter ودالة Setter مع علامة داخلية (Flag)
+     بتعرف هل المتغير ده اتملى ولا لسه.
+   - أول ما تطلب المتغير، المترجم بيسأل: "هل لسه فاضي؟"
+     لو آه ومعاه قيمة ابتدائية، بيشغلها مرة واحدة ويخزنها عنده.
+     لو آه ومعهوش قيمة ابتدائية، بيفجر التطبيق فوراً بـ `LateInitializationError`!
+   - نصيحة معمارية: استخدم `late` أساساً للخدمات الثقيلة اللي عاوز تأجل تحميلها، وماتستخدمهاش
+     كحيلة رخيصة عشان تتهرب من الـ Null Safety.
 ================================================================================
 */

@@ -1,104 +1,104 @@
 /// ==============================================================================
-/// File: 01_beginner_types_basics.dart
-/// Educational Objective: Master Dart's core primitive types, static type inference (`var`),
-/// the fundamental distinction between `Object` and `dynamic`, and strict type compliance.
+/// اسم الملف: 01_beginner_types_basics.dart
+/// الهدف التعليمي: فهم الأنواع الأساسية في Dart، واستنتاج الأنواع الساكنة (`var`)،
+/// والفرق الجوهري بين `Object` و `dynamic`، ونظام الأنواع الصارم.
 ///
-/// Execution:
+/// طريقة التشغيل:
 ///   dart run 01_beginner_types_basics.dart
 /// ==============================================================================
 
 void main() {
-  print('=== STEP 1: Static Type Declarations vs Type Inference ===');
+  print('=== الخطوة 1: تحديد النوع صراحةً مقابل استنتاج النوع (Type Inference) ===');
 
-  // Explicit type declaration
+  // تحديد النوع بشكل صريح وواضح (Explicit type declaration)
   int accountId = 10042;
   double interestRate = 0.045;
   String accountHolder = 'Fatima Zahra';
   bool isActive = true;
 
-  print('Explicit Types: id=$accountId, rate=$interestRate, holder=$accountHolder, active=$isActive');
+  print('الأنواع الصريحة: id=$accountId, rate=$interestRate, holder=$accountHolder, active=$isActive');
 
-  // Type inference using 'var': Dart compiler infers String at compile-time
+  // استنتاج النوع باستخدام 'var': مترجم Dart بيعرف لوحده إن النوع String وقت الـ Compile-time
   var transactionTag = 'TX_REFUND_99';
-  // transactionTag = 42; // COMPILE ERROR: A value of type 'int' cannot be assigned to a variable of type 'String'.
-  print('Inferred type for transactionTag is String: "$transactionTag"');
+  // transactionTag = 42; // خطأ في الترجمة (Compile Error): مينفعش تحط رقم int في متغير نوعه String اتحدد خلاص!
+  print('النوع المستنتج لـ transactionTag هو String: "$transactionTag"');
 
-  print('\n=== STEP 2: The Core Difference: Object vs dynamic ===');
+  print('\n=== الخطوة 2: الفرق الجوهري والأساسي بين Object و dynamic ===');
 
-  // Object: The root of the Dart non-nullable class hierarchy.
-  // The compiler enforces static type checking: only methods defined on Object (e.g., toString(), hashCode) are accessible.
+  // Object: هو رأس شجرة الوراثة لكل الأنواع غير القابلة للـ null (non-nullable) في Dart.
+  // المترجم هنا بيحرسك ويطبق الفحص الصارم: مش هيسمح لك تنادي غير الدوال المعرفة في Object (زي toString و hashCode).
   Object safeContainer = 'Enterprise Security Token';
-  print('safeContainer as Object toString: ${safeContainer.toString()}');
-  // safeContainer.toUpperCase(); // COMPILE ERROR: The method 'toUpperCase' isn't defined for the class 'Object'.
+  print('safeContainer كـ Object مع دالة toString: ${safeContainer.toString()}');
+  // safeContainer.toUpperCase(); // خطأ في الترجمة (Compile Error): دالة toUpperCase مش موجودة في كلاس Object!
 
-  // Type promotion via 'is' check
+  // ترقية النوع (Type promotion) عن طريق فحص الشرط 'is'
   if (safeContainer is String) {
-    // Flow analysis automatically promotes safeContainer to String within this block
-    print('Promoted safeContainer uppercase: ${safeContainer.toUpperCase()}');
+    // محلل التدفق (Flow Analysis) في Dart بيرقي safeContainer تلقائياً لـ String جوة البلوك ده
+    print('بعد الترقية safeContainer بقى String بالحروف الكبيرة: ${safeContainer.toUpperCase()}');
   }
 
-  // dynamic: Disables static type analysis entirely. Method resolution is deferred to runtime.
+  // dynamic: بيلغي فحص المترجم تماماً، وبيأجل التأكد من الدوال لوقت التشغيل (Runtime).
   dynamic untypedInput = 'Initial Raw String';
-  print('dynamic length: ${untypedInput.length}');
+  print('طول النص في dynamic: ${untypedInput.length}');
 
-  // Changing the type at runtime is permissible for dynamic variables:
+  // عادي جداً تغير نوع القيمة وقت التشغيل مع المتغيرات اللي نوعها dynamic:
   untypedInput = 123456;
-  print('untypedInput re-assigned to int: $untypedInput');
+  print('تم تغيير قيمة untypedInput إلى رقم int: $untypedInput');
 
-  // Warning: Calling non-existent methods compiles cleanly but crashes at runtime!
+  // تحذير: لو ناديت دالة مش موجودة، الكود هيعدي من الـ Compile بس هينفجر ويعمل Crash وقت التشغيل!
   try {
-    // This will throw NoSuchMethodError at runtime
+    // السطر ده هيضرب خطأ NoSuchMethodError وقت التشغيل لأن الرقم ملوش toLowerCase
     untypedInput.toLowerCase();
   } on NoSuchMethodError catch (e) {
-    print('CAUGHT RUNTIME DISASTER (NoSuchMethodError): $e');
+    print('مسكنا الكارثة في وقت التشغيل (NoSuchMethodError): $e');
   }
 
-  print('\n=== STEP 3: Numbers Hierarchy: num, int, and double ===');
-  // 'num' is an abstract superclass of both 'int' and 'double'
-  num flexibleAmount = 50; // Holds an int
-  print('flexibleAmount as int: $flexibleAmount (runtimeType: ${flexibleAmount.runtimeType})');
-  flexibleAmount = 79.99; // Can safely hold a double
-  print('flexibleAmount as double: $flexibleAmount (runtimeType: ${flexibleAmount.runtimeType})');
+  print('\n=== الخطوة 3: تسلسل الأرقام: num و int و double ===');
+  // 'num' هو الكلاس الأب المجرد للاثنين: 'int' و 'double'
+  num flexibleAmount = 50; // هنا شايل رقم صحيح int
+  print('flexibleAmount كـ int: $flexibleAmount (نوعه وقت التشغيل: ${flexibleAmount.runtimeType})');
+  flexibleAmount = 79.99; // وممكن عادي يشيل رقم عشري double بأمان
+  print('flexibleAmount كـ double: $flexibleAmount (نوعه وقت التشغيل: ${flexibleAmount.runtimeType})');
 
-  print('\nExecution completed safely with zero unhandled errors.');
+  print('\nتم التنفيذ بأمان ومن غير أي أخطاء غير معالجة.');
 }
 
 /*
 ================================================================================
-TECHNICAL BREAKDOWN & PEDAGOGICAL NOTES
+الشرح الفني وملاحظات تعليمية (بالبلدي كده)
 ================================================================================
-1. Syntax Explained:
-   - `var`: Tells the Dart Common Front End (CFE) to deduce the variable's type from its initializer. Once inferred, the type is fixed forever.
-   - `Object`: The non-nullable top type. Guarantees safe polymorphic behavior.
-   - `dynamic`: An escape hatch from the type system. Useful only during low-level serialization or interop with JavaScript/Objective-C.
+1. شرح الـ Syntax:
+   - `var`: بتقول لمترجم Dart: "خمّن إنت النوع من أول قيمة هتاخدها". وأول ما يحدد النوع، بيفضل ثابت طول عمره ومينفعش يتغير.
+   - `Object`: هو النوع الأب الأعلى (Top Type) لكل الكائنات غير القابلة للـ null، وبيضمنلك الأمان بنسبة 100%.
+   - `dynamic`: باب خلفي للهروب من فحص المترجم. مفيد بس في حالات معينة زي تحويل البيانات (Serialization) أو التعامل مع كود جافاسكريبت خارجي.
 
-2. Expected Output:
-   === STEP 1: Static Type Declarations vs Type Inference ===
-   Explicit Types: id=10042, rate=0.045, holder=Fatima Zahra, active=true
-   Inferred type for transactionTag is String: "TX_REFUND_99"
+2. المخرجات المتوقعة (Expected Output):
+   === الخطوة 1: تحديد النوع صراحةً مقابل استنتاج النوع (Type Inference) ===
+   الأنواع الصريحة: id=10042, rate=0.045, holder=Fatima Zahra, active=true
+   النوع المستنتج لـ transactionTag هو String: "TX_REFUND_99"
 
-   === STEP 2: The Core Difference: Object vs dynamic ===
-   safeContainer as Object toString: Enterprise Security Token
-   Promoted safeContainer uppercase: ENTERPRISE SECURITY TOKEN
-   dynamic length: 18
-   untypedInput re-assigned to int: 123456
-   CAUGHT RUNTIME DISASTER (NoSuchMethodError): ...
+   === الخطوة 2: الفرق الجوهري والأساسي بين Object و dynamic ===
+   safeContainer كـ Object مع دالة toString: Enterprise Security Token
+   بعد الترقية safeContainer بقى String بالحروف الكبيرة: ENTERPRISE SECURITY TOKEN
+   طول النص في dynamic: 18
+   تم تغيير قيمة untypedInput إلى رقم int: 123456
+   مسكنا الكارثة في وقت التشغيل (NoSuchMethodError): ...
 
-   === STEP 3: Numbers Hierarchy: num, int, and double ===
-   flexibleAmount as int: 50 (runtimeType: int)
-   flexibleAmount as double: 79.99 (runtimeType: double)
+   === الخطوة 3: تسلسل الأرقام: num و int و double ===
+   flexibleAmount كـ int: 50 (نوعه وقت التشغيل: int)
+   flexibleAmount كـ double: 79.99 (نوعه وقت التشغيل: double)
 
-   Execution completed safely with zero unhandled errors.
+   تم التنفيذ بأمان ومن غير أي أخطاء غير معالجة.
 
-3. Common Pitfalls:
-   - Assuming `var` means dynamic typing like JavaScript. In Dart, `var x = 1` is strictly an `int`.
-   - Overusing `dynamic` to avoid compiler warnings; this converts compile-time safety into production crashes.
+3. أشهر الغلطات اللي بيقع فيها المطورين:
+   - إنك تفتكر `var` زي الـ `var` في JavaScript وبتقبل أي نوع في أي وقت! في Dart، لما تقول `var x = 1` خلاص بقى `int` صارم للأبد.
+   - كثرة استخدام `dynamic` عشان تكسل وتتخلص من تحذيرات المترجم؛ الحركة دي بتحول أخطاء وقت الترجمة لكوارث وCrash في وش المستخدم في الإنتاج.
 
-4. Complexity Analysis:
-   - Primitive variable access: O(1) Time, O(1) Memory Space.
-   - Type checks (`is` operator): O(1) Time check on the object's class pointer in memory.
+4. تحليل الأداء والتعقيد (Complexity):
+   - الوصول للمتغيرات الأساسية: O(1) في الوقت، O(1) في الذاكرة.
+   - فحص النوع (باستخدام `is`): O(1) فحص سريع جداً لمؤشر الكلاس في الذاكرة.
 
-5. Alternative Implementation:
-   - Instead of `dynamic`, use generic types `T` or sealed class hierarchies when handling diverse payloads.
+5. بديل هندسي أفضل:
+   - بدل ما تستخدم `dynamic`، اعتمد على الـ Generics (`<T>`) أو كلاسات الـ Sealed لما تتعامل مع بيانات بأنواع مختلفة.
 ================================================================================
 */

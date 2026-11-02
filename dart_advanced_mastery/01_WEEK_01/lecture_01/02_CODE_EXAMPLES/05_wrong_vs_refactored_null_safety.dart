@@ -1,68 +1,68 @@
 /// ==============================================================================
-/// File: 05_wrong_vs_refactored_null_safety.dart
-/// Educational Objective: Contrast an insecure, bug-prone implementation that abuses
-/// the `!` bang operator and `dynamic` with an industrial-grade, refactored implementation
-/// utilizing strict Sound Null Safety, immutability, and pattern guards.
+/// اسم الملف: 05_wrong_vs_refactored_null_safety.dart
+/// الهدف التعليمي: مقارنة عملية بين كود مليان مشاكل وثغرات وبيعتمد بغباء على
+/// علامة التعجب `!` و `dynamic`، وبين كود مهندم ومتعدل بمعايير إنتاج احترافية
+/// مبنية على الـ Sound Null Safety وتأمين البيانات والقيم الثابتة (Immutability).
 ///
-/// Execution:
+/// طريقة التشغيل:
 ///   dart run 05_wrong_vs_refactored_null_safety.dart
 /// ==============================================================================
 
 // ==============================================================================
-// 1. THE WRONG IMPLEMENTATION (Fragile, Error-Prone Anti-Patterns)
+// 1. التطبيق الغلط والهش (كود مليان Anti-Patterns ومشاكل)
 // ==============================================================================
 class FragileUserOrder {
-  dynamic orderId; // ANTI-PATTERN: dynamic disables static type safety
+  dynamic orderId; // غلطة قاتلة: dynamic بتلغي أمان وفحص الأنواع تماماً
   String? customerName;
   double? totalAmount;
-  late String receiptCode; // ANTI-PATTERN: uninitialized late variable vulnerable to crash
+  late String receiptCode; // غلطة: متغير late مش متهيء وممكن يفرقع في أي لحظة لو اتقرأ
 
   FragileUserOrder(this.orderId, this.customerName, this.totalAmount);
 
   void printReceipt() {
-    // ANTI-PATTERN: Bang operator (!) blindly applied without validation
-    // If customerName or totalAmount is null, application crashes with TypeError
-    print('Order #${orderId.toString()} for ${customerName!.toUpperCase()}');
-    print('Total Amount: \$${totalAmount!.toStringAsFixed(2)}');
-    // Accessing uninitialized receiptCode throws LateInitializationError
-    print('Receipt: $receiptCode');
+    // غلطة شائعة: الفك الإجباري بعلامة التعجب (!) على عماها من غير أي فحص مسبق
+    // لو customerName أو totalAmount طلعوا بـ null، التطبيق هيفرقع بـ TypeError في وش العميل
+    print('الطلب رقم #${orderId.toString()} للعميل ${customerName!.toUpperCase()}');
+    print('المبلغ الإجمالي: \$${totalAmount!.toStringAsFixed(2)}');
+    // محاولة قراءة receiptCode وهو فاضي هترمي خطأ LateInitializationError فوراً
+    print('كود الإيصال: $receiptCode');
   }
 }
 
 // ==============================================================================
-// 2. THE REFACTORED IMPLEMENTATION (Robust, Type-Safe, Production-Ready)
+// 2. التطبيق المتعدل والمحترف (كود متين وآمن وجاهز للإنتاج)
 // ==============================================================================
 class RobustUserOrder {
   final String orderId;
   final String customerName;
   final double totalAmount;
-  final String? receiptCode; // Explicitly nullable with safe fallback
+  final String? receiptCode; // بيقبل null صراحة ومتحاوط بقيم بديلة آمنة
 
   const RobustUserOrder({
     required this.orderId,
     required this.customerName,
     required this.totalAmount,
     this.receiptCode,
-  }) : assert(totalAmount >= 0.0, 'Total amount cannot be negative');
+  }) : assert(totalAmount >= 0.0, 'المبلغ الإجمالي مستحيل يكون بالسالب');
 
-  /// Safe factory constructor that validates and sanitizes external untrusted data
+  /// Factory Constructor آمن بيفحص وينظف البيانات اللي جاية من برة ومش موثوق فيها
   factory RobustUserOrder.fromUntrustedData({
     required dynamic rawId,
     required String? rawName,
     required double? rawAmount,
     String? receiptCode,
   }) {
-    // 1. Validate ID
+    // 1. فحص رقم الطلب
     if (rawId == null || rawId.toString().trim().isEmpty) {
-      throw ArgumentError('Order ID cannot be empty or null');
+      throw ArgumentError('رقم الطلب مينفعش يجي فاضي أو null');
     }
 
-    // 2. Validate & Sanitize Customer Name with safe fallback
+    // 2. فحص وتنظيف اسم العميل وإعطاؤه قيمة بديلة لو فاضي
     final sanitizedName = (rawName != null && rawName.trim().isNotEmpty)
         ? rawName.trim()
-        : 'GUEST_CUSTOMER';
+        : 'عميل_زائر';
 
-    // 3. Validate Amount
+    // 3. فحص وتأمين المبلغ
     final sanitizedAmount = (rawAmount != null && rawAmount >= 0.0)
         ? rawAmount
         : 0.0;
@@ -76,42 +76,42 @@ class RobustUserOrder {
   }
 
   void printReceipt() {
-    // Completely safe: guaranteed non-null fields
-    print('Order #$orderId for ${customerName.toUpperCase()}');
-    print('Total Amount: \$${totalAmount.toStringAsFixed(2)}');
+    // كود آمن 100%: كل الحقول مضمونة ومش ممكن تكون null
+    print('الطلب رقم #$orderId للعميل ${customerName.toUpperCase()}');
+    print('المبلغ الإجمالي: \$${totalAmount.toStringAsFixed(2)}');
 
-    // Safe handling of optional nullable field using null-coalescing
-    final receipt = receiptCode ?? 'PENDING_DIGITAL_GENERATION';
-    print('Receipt: $receipt');
+    // التعامل الذكي مع الحقل الاختياري باستخدام ?? لإعطاء نص بديل
+    final receipt = receiptCode ?? 'جاري_إصدار_الإيصال_إلكترونياً';
+    print('الإيصال: $receipt');
   }
 }
 
 void main() {
-  print('=== SCENARIO 1: Running the Fragile Implementation (Crashing) ===');
+  print('=== السيناريو 1: تشغيل الكود الهش والمليان مشاكل (هيعمل Crash) ===');
   final buggyOrder = FragileUserOrder(1099, null, 450.0);
 
   try {
     buggyOrder.printReceipt();
   } catch (e) {
-    print('>> CRASH CAUGHT in Fragile Implementation:');
-    print('   Error: $e');
+    print('>> تم مسك الكارثة والـ Crash في الكود الضعيف:');
+    print('   رسالة الخطأ: $e');
   }
 
-  print('\n=== SCENARIO 2: Running the Refactored Implementation (Safe) ===');
-  // Passing nulls into the safe factory
+  print('\n=== السيناريو 2: تشغيل الكود المتعدل والآمن (Safe 100%) ===');
+  // بنبعت قيم فيها null للمصنع الآمن وهو هيتصرف بحكمة
   final safeOrder1 = RobustUserOrder.fromUntrustedData(
     rawId: 1099,
-    rawName: null, // Gracefully defaulted to GUEST_CUSTOMER
+    rawName: null, // هيتحول بسلاسة لـ "عميل_زائر"
     rawAmount: 450.0,
-    receiptCode: null, // Gracefully handled as PENDING_DIGITAL_GENERATION
+    receiptCode: null, // هيتعامل معاه بأمان كإيصال تحت الإصدار
   );
 
   safeOrder1.printReceipt();
 
-  print('\n=== SCENARIO 3: Running Refactored with Complete Data ===');
+  print('\n=== السيناريو 3: تشغيل الكود المتعدل ببيانات كاملة وسليمة ===');
   final safeOrder2 = RobustUserOrder.fromUntrustedData(
     rawId: 'ORD_2026_EG_88',
-    rawName: 'Engineer Mahmoud',
+    rawName: 'المهندس محمود',
     rawAmount: 1899.99,
     receiptCode: 'RCPT_VERIFIED_9918',
   );
@@ -121,14 +121,14 @@ void main() {
 
 /*
 ================================================================================
-ENGINEERING COMPARISON & CODE REVIEW CHECKLIST
+مقارنة هندسية وقائمة مراجعة الكود (Code Review) - بالبلدي كده
 ================================================================================
-Checklist Item          | Fragile Version                 | Refactored Version
+عنصر المقارنة           | الكود الهش الضعيف               | الكود المتعدل المحترف
 ------------------------|---------------------------------|---------------------------------
-Type Safety             | Weak (`dynamic orderId`)        | Strict (`String orderId`)
-Null Handling           | Blind force unwrap (`!`)        | Guaranteed types & fallback (`??`)
-Initialization Risk     | Unsafe `late` variable crash    | Explicit constructor initialization
-Data Validation         | None                            | Guarded factory with validation
-Immutability            | Mutable fields (reassignable)   | Immutable (`final` fields)
+أمان الأنواع            | ضعيف (`dynamic orderId`)        | صارم ومحمي (`String orderId`)
+التعامل مع الـ Null     | فك إجباري أعمى بـ (`!`)         | أنواع مضمونة وقيم بديلة بـ (`??`)
+مخاطر التهيئة المبدئية  | متغيرات `late` بتفرقع في الرام  | تهيئة صريحة ومحمية في الـ Constructor
+فحص وتنقية البيانات     | منعدم تماماً                    | Factory آمن بفلتر المدخلات
+ثبات البيانات (Immut.)  | متغيرات قابلة للتعديل واللعب    | بيانات غير قابلة للتعديل (`final`)
 ================================================================================
 */
